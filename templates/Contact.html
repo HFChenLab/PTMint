@@ -1,0 +1,72 @@
+{# Jinja web template engine which will be redered by Flask #}
+{# Template Inheritance #}
+{% extends "mybase.html" %}
+
+{% block content -%}
+<script>
+	let $a = document.querySelector('.menuItem.active')
+	if($a){$a.classList.remove('active')}
+	document.querySelector('#contact').classList.add('active')
+</script>
+<style type="text/css">
+a:link,a:visited{
+ text-decoration:none;  /*超链接无下划线*/
+}
+a:hover{
+ text-decoration:underline;  /*鼠标放上去有下划线*/
+}
+</style>
+
+<div class="container-fluid">
+      <div class="row">
+           <div class="col-md-6 offset-md-1">
+            <br>
+             <h3>&#8251; Contact</h3><br>
+            </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-10 offset-md-1" style="border: 3px solid #009E73">
+            <br>
+          <a href="https://life.sjtu.edu.cn/teacher/HaifengChen" target="_blank"><font color="#FFA808"><h4>Haifeng Chen, PhD</h4></font></a>
+          <font color="green"><h4> &#9993 haifengchen@sjtu.edu.cn</h4></font>
+          <p class="lead"><strong>Professor of Bioinformatics and Biostatistics<br>School of Life Sciences and Biotechnology, Shanghai Jiao Tong University, Shanghai 200240, China</strong></p>
+        </div>
+     </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <br>
+        </div>
+    </div>
+
+      <div class="row">
+        <div class="col-md-10 offset-md-1" style="border: 3px solid #009E73">
+            <br>
+          <a href="https://life.sjtu.edu.cn/teacher/JingLi" target="_blank"><font color="#FFA808"><h4>Jing Li, PhD</h4></font></a>
+          <font color="green"><h4>&#9993 jing.li@sjtu.edu.cn</h4></font>
+            <p class="lead"><strong>Professor of Bioinformatics and Biostatistics<br>School of Life Sciences and Biotechnology, Shanghai Jiao Tong University, Shanghai 200240, China</strong></p>
+
+        </div>
+     </div>
+
+    <div class="row">
+       <div class="col-md-10 offset-md-1">
+         <br>
+		 <br>
+		 <br>
+		 <br>
+
+
+
+
+
+       </div>
+    </div>
+
+
+
+     
+  </div>
+  
+{%- endblock content %}

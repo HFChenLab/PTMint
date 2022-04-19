@@ -1,0 +1,155 @@
+{# Jinja web template engine which will be redered by Flask #}
+{# Template Inheritance #}
+{% extends "mybase.html" %}
+
+{# Add a always expand navbar #}
+{% block navbar %}
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="navbar nav-fill w-100 justify-content-center navbar-dark bg-dark navbar-expand-sm">
+        <ul class="navbar-nav nav-fill w-100">
+          <li class="nav-item active">
+            <a class="nav-link border-left border-right border-white" href="{{ url_for('index') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border-left border-right border-white" href="{{ url_for('show', page='Search') }}">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border-left border-right border-white" href="{{ url_for('show', page='Browse') }}">Browse<span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border-left border-right border-white" href="{{ url_for('show', page='Download') }}">Download</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border-left border-right border-white" href="{{ url_for('show', page='Help') }}">Help</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border-left border-right border-white" href="{{ url_for('show', page='Citation') }}">Citation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border-left border-right border-white" href="{{ url_for('show', page='Contact') }}">Contact</a>
+          </li>
+
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+{%- endblock navbar %}
+
+
+{% block content -%}
+
+<style type="text/css">
+a:link,a:visited{
+ text-decoration:none;  /*超链接无下划线*/
+}
+a:hover{
+ text-decoration:underline;  /*鼠标放上去有下划线*/
+}
+</style>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.dataTables.min.css') }}">
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.10.2.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.dataTables.js') }}"></script>
+
+
+<div class="container-fluid">
+
+ <div class="row">
+  <div class="col-md-10 offset-md-1">
+  <br>
+  </div>
+</div>
+
+ <div class="row">
+  <div class="col-md-10 offset-md-1">
+
+<table id="data" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Organism</th>
+                <th>Gene</th>
+                <th>PTM</th>
+                <th>Site</th>
+                <th>AA</th>
+                <th>Int_gene</th>
+                <th>Effect</th>
+                <th>PMID</th>
+            </tr>
+        </thead>
+    <!--
+        <tfoot>
+            <tr>
+                <th>ORGANISM</th>
+                <th>PTM</th>
+                <th>GENE</th>
+                <th>AA</th> 
+                <th>site</th>
+                <th>effect</th>
+                <th>interactor_gene</th>
+                <th>PMID</th>
+            </tr>
+        </tfoot>
+     -->
+    </table>
+
+
+<script>
+$(document).ready( function () {
+    $('#data').DataTable( {
+        "ajax": "data/simple.txt",
+      columns:[
+      { data: 'Organism' },
+      { data: 'Gene' },
+      { data: 'PTM' },
+      { data: 'Site' },
+      { data: 'AA' },
+      { data: 'Int_gene' },
+      { data: 'Effect' },
+      { data: 'PMID' },
+       ],
+      dom: 'Bfrtip',
+      buttons: [
+        'copy','csv','excel'
+    ]
+
+    } );
+} );
+</script> 
+
+
+</div>
+</div>
+
+ <div class="row">
+   <div class="col-md-10 offset-md-1">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+
+   </div>
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+  
+{%- endblock content %}

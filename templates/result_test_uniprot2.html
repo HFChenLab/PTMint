@@ -1,0 +1,784 @@
+{# Jinja web template engine which will be redered by Flask #}
+{# Template Inheritance #}
+{% extends "mybase.html" %}
+
+{% block content -%}
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.css') }}">-->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.dataTables.min.css') }}">
+
+<!--<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.10.2.min.js') }}"></script>-->
+<!--<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.dataTables.js') }}"></script>-->
+<script>
+	let $a = document.querySelector('.menuItem.active')
+	if($a){$a.classList.remove('active')}
+	document.querySelector('#search').classList.add('active')
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/3Dmol.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/echarts.min.js') }}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.5.1.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+
+
+<style type="text/css">
+
+</style>
+
+
+
+<!--overview-->
+
+<div class="container-fluid">
+  <div class="row">
+   <div class="col-md-6 offset-md-1" >
+       <br>
+    <font color="#E69F00"><h3>1.Overview</h3></font><br>
+    <p class="lead"><strong>Gene: {{A1}}<br><br>Protein: {{B1}}<br><br>Uniprot: <a href="https://www.uniprot.org/uniprot/{{C1}}" title="Visit Uniprot" target="_blank">{{C1}}</a><br><br>Organism:
+        {{D1}}<br><br>AlphaFold database: <a href="https://alphafold.ebi.ac.uk/entry/{{C1}}" title="Visit AlphaFold DB" target="_blank">{{C1}}</a><br><br>Pfam database: <a href="http://pfam.xfam.org/protein/{{C1}}" title="Visit Pfam" target="_blank">{{C1}}</a></strong></p>
+
+   </div>
+     <div class="col-md-4" style="text-align:center;">
+         
+
+<div id="container-01" class="mol-container1" style="margin:auto;"></div>
+
+<style>
+.mol-container1 {
+  width:  80%;
+  height: 80%;
+  position: relative;
+<!--  border: 3px solid green;-->
+  overflow: hidden;
+}
+
+</style>
+
+<script>
+$(function() {
+
+  let element = $('#container-01');
+  let config = { backgroundColor: 'white' };
+  let viewer = $3Dmol.createViewer( element, config );
+  let pdbUri = '/data/{{C1}}.pdb';
+  
+
+  let colorAsSnake = function(a) {
+    return a.b <50? 'rgb(255, 125, 69)' : a.b < 70 ? 'rgb(255, 219, 19)': a.b<90? 'rgb(101, 203, 243)':'rgb(0, 83, 214)'
+  };
+
+  jQuery.ajax( pdbUri, {
+    success: function(data) {
+      let v = viewer;
+      v.addModel( data, "pdb" );                       /* load data */
+      v.setStyle({}, {cartoon: {colorfunc: colorAsSnake}});  /* style all atoms */
+      v.zoomTo();                                      /* set camera */
+      v.render();                                      /* render scene */
+      v.spin();                                      /* spin*/
+      v.zoom(1.2, 1000);                               /* slight zoom */
+    },
+    error: function(hdr, status, err) {
+      console.error( "Failed to load PDB " + pdbUri + ": " + err );
+    },
+  });
+
+
+
+
+});
+
+</script>
+<p class="lead"><strong>AlphaFold structure</strong></p >
+<div style="display:flex;">
+	<div style="width:50%;display:flex;"><span class="blk" style="background:rgb(255, 125, 69);"> </span>Very low (pLDDT&lt;50)</div>
+	<div style="width:50%;display:flex;"><span class="blk" style="background:rgb(255, 219, 19);"> </span>Low (70>pLDDT>50)</div>
+</div>
+<div style="display:flex;">
+	<div style="width:50%;display:flex;"><span class="blk" style="background:rgb(101, 203, 243);"> </span>Confident (90>pLDDT>70)</div>
+	<div style="width:50%;display:flex;"><span class="blk" style="background:rgb(0, 83, 214);"> </span> Very high (pLDDT>90)</div>
+</div>
+</div>
+</div>
+
+
+ 
+ 
+ 
+<style>
+.blk{
+width:20px;height:20px;display:block;margin-right:10px;
+}
+</style>
+<!--two echarts-->
+<div class="row">
+<div class="col-md-10 offset-md-1">
+
+<div style="display:flex;"><h3 style="color:#56B4E9">2.Protein features</h3><a style="margin-left:30px;" href="../data/{{Y1}}" title="Download protein features"><input class="btn btn-primary"  type="submit" value="Download" style="background-color:#56B4E9;border-color:#56B4E9;"></a>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+<div class="row">
+<div class="col-md-10 offset-md-1">
+
+
+<div id="main1" style="height:200%"></div>
+
+
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart1 = echarts.init(document.getElementById('main1'));
+
+      // 指定图表的配置项和数据
+      var option1 = {
+          toolbox: {
+    　　feature: {
+    　　　　saveAsImage: {　}
+    　　}
+    },
+        title: {
+          text: ''
+        },
+        tooltip: {
+         },
+<!--        legend: {-->
+<!--          data: ['Iupred2']-->
+<!--        },-->
+        xAxis: {
+        name: 'Residues Number',
+        nameLocation:'center',
+        nameTextStyle:{
+       fontSize:16,// 字体大小
+       padding: 10,
+       color: '#000000',
+    },
+        data: {{E1}},
+        axisLabel: {
+        show: true,
+        textStyle: {
+        color: '#000000',
+   }}
+        },
+        grid:{
+        left:50,
+        right:25,
+        top:25,
+        bottom:50,
+        },
+        yAxis: {
+        name:'IUPred2A',
+        nameLocation:'center',
+        nameRotate: '90',
+        nameGap: 10,
+        nameTextStyle:{
+        fontSize:16,// 字体大小
+        padding: 20,
+        color: '#000000',
+    },
+         axisLabel: {
+         show: true,
+         textStyle: {
+         color: '#000000',
+         }}
+        },
+        series: [
+          {
+            name: 'Iupred2',
+            type: 'line',
+            smooth: true,
+            color: '#C1232B',
+            data: {{F1}},
+                            markLine: {
+                silent: true,
+                data: [{
+                    yAxis: 0.5
+                }],
+                lineStyle: {
+                    normal: {
+                    type: 'dashed',
+                    color:"#006600",
+                    width:3
+                },
+            },
+            }
+
+          },
+
+        ]
+      };
+
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart1.setOption(option1);
+
+
+    </script>
+</div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+
+    <div id="main2" style="height:200%"></div>
+        <script type="text/javascript">
+           var myChart2 = echarts.init(document.getElementById('main2'));
+        var option2 = {
+         toolbox: {
+    　　feature: {
+    　　　　saveAsImage: {　}
+    　　}
+    },
+        title: {
+          text: ''
+        },
+        tooltip: {},
+<!--        legend: {-->
+<!--          data: ['Hydropathicity']-->
+<!--        },-->
+        xAxis: {
+        name: 'Residues Number',
+        nameLocation:'center',
+        nameTextStyle:{
+      fontSize:16,// 字体大小
+      padding: 10,
+      color: '#000000',
+
+    },
+        data: {{G1}},
+         axisLabel: {
+        show: true,
+        textStyle: {
+        color: '#000000',
+   }}
+
+        },
+        grid:{
+        left:50,
+        right:25,
+        top:25,
+        bottom:50,
+        },
+        yAxis: {
+         name:'Hydropathicity',
+         nameLocation:'center',
+         nameRotate: '90',
+         nameGap: 10,
+         nameTextStyle:{
+         fontSize:16,// 字体大小
+         padding: 20,
+         color: '#000000',
+        },
+         axisLabel: {
+        show: true,
+        textStyle: {
+        color: '#000000',
+   }}
+        },
+        series: [
+          {
+            name: 'Hydropathicity',
+            type: 'line',
+            smooth: true,
+            data: {{H1}}
+          }
+        ]
+      };
+        myChart2.setOption(option2);
+        </script>
+    </div>
+</div>
+
+
+
+
+<!--protein interaction-->
+<div class="row">
+<div class="col-md-10 offset-md-1">
+    <br>
+<font color="#009E73"><h3>3.PTM on Protein-Protein Interactions</h3></font>
+
+
+<table id="data" class="hover" style="width:5%">
+        <thead>
+            <tr>
+                <th>Organism</th>
+                <th>Gene</th>
+                <th>Uniprot</th>
+                <th>PTM</th>
+                <th>Site</th>
+                <th>AA</th>
+                <th>Int_uniprot</th>
+                <th>Int_gene</th>
+                <th>Effect</th>
+                <th>Method</th>
+                <th>Disease</th>
+                <th>Co-localization</th>
+                <th>PMID</th>
+                <th>Complex</th>
+                <th>PDBRES</th>
+                <th>Gene_chain</th>
+                <th>Int_chain</th>
+                <th>Score</th>
+                <th>Interface</th>
+                <th>Domain</th>
+                <th>Complex_origin</th>
+                <th>PDBID</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fooo in int %}
+         <tr>
+         <td>{{ fooo.Organism }}</td>
+         <td>{{ fooo.Gene }}</td>
+         <td><a href="https://www.uniprot.org/uniprot/{{ fooo.Uniprot }}/" title="Visit Uniprot" target="_blank">{{ fooo.Uniprot }}</a></td>
+         <td>{{ fooo.PTM }}</td>
+         <td>{{ fooo.Site }}</td>
+         <td>{{ fooo.AA }}</td>
+         <td><a href="https://www.uniprot.org/uniprot/{{ fooo.Int_uniprot }}/" title="Visit Uniprot" target="_blank">{{ fooo.Int_uniprot }}</a></td>
+         <td>{{ fooo.Int_gene }}</td>
+         <td>{{ fooo.Effect }}</td>
+         <td>{{ fooo.Method }}</td>
+         <td>{{ fooo.Disease }}</td>
+         <td>{{ fooo["Co-localization"] }}</td>
+         <td><a href="https://pubmed.ncbi.nlm.nih.gov/{{ fooo.PMID }}/" title="Visit PubMed" target="_blank">{{ fooo.PMID }}</a></td>
+         <td>{{ fooo.Complex }}</td>
+         <td>{{ fooo.PDBRES }}</td>
+         <td>{{ fooo.Gene_chain }}</td>
+         <td>{{ fooo.Int_chain }}</td>
+         <td>{{ fooo.Score }}</td>
+         <td>{{ fooo.Interface }}</td>
+         <td>{{ fooo.Domain }}</td>
+         <td>{{ fooo.Complex_origin }}</td>
+         <td>{{ fooo.PDBID }}</td>
+         </tr>
+        {% endfor %}
+        </tbody>
+
+</table>
+
+
+<script>
+$(document).ready( function () {
+    $('#data').DataTable( {
+    "createdRow": function (row, data, dataIndex) {
+          // row : tr dom
+          // data: row data
+          // dataIndex:row data's index
+          if (data[3] == "Phos") {
+              $('td', row).css("color", "#0000FF");
+          }
+          if (data[3] == "Ac") {
+              $('td', row).css("color", "#008837");
+          }
+          if (data[3] == "Me") {
+              $('td', row).css("color", "#C2000C");
+          }
+          if (data[3] == "Sumo") {
+              $('td', row).css("color", "#A0632F");
+          }
+          if (data[3] == "Ub") {
+              $('td', row).css("color", "#843593");
+          }
+
+
+      },
+<!--        "ajax": "data/interaction.txt",-->
+<!--      columns:[-->
+<!--      { data: 'Organism' },-->
+<!--      { data: 'Gene' },-->
+<!--      { data: 'Uniprot' },-->
+<!--      { data: 'PTM' },-->
+<!--      { data: 'Site' },-->
+<!--      { data: 'AA' },-->
+<!--      { data: 'Int_uniprot' },-->
+<!--      { data: 'Int_gene' },-->
+<!--      { data: 'Effect' },-->
+<!--      { data: 'Method' },-->
+<!--      { data: 'Disease' },-->
+<!--      { data: 'Co-localization' },-->
+<!--      { data: 'PMID' },-->
+<!--      { data: 'Complex' },-->
+<!--      { data: 'PDBRES' },-->
+<!--      { data: 'Gene_chain' },-->
+<!--      { data: 'Int_chain' },-->
+<!--      { data: 'Score' },-->
+<!--      { data: 'Interface' },-->
+<!--      { data: 'Domain' },-->
+<!--      { data: 'Complex_origin' },-->
+<!--      { data: 'PDBID' },-->
+<!--       ],-->
+      dom: 'Bfrtip',
+      "scrollX": true,
+<!--      "scrollY": 200,-->
+<!--      "order": [[ 3, "asc" ]],-->
+      buttons: [
+        'copy','csv','excel'
+    ]
+
+    } );
+} );
+</script>
+</div>
+</div>
+
+
+<!--mutation -->
+
+
+<!--<div class="row">-->
+<!--<div class="col-md-10 offset-md-1">-->
+<!--<font color="#F0E442"><h3>4.Mutations affect PTM status</h3></font>-->
+
+<!--<table id="data2" class="display" style="width:100%">-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th>Organism</th>-->
+<!--                <th>Gene</th>-->
+<!--                <th>Uniprot</th>-->
+<!--                <th>PTM</th>-->
+<!--                <th>Site</th>-->
+<!--                <th>AA</th>-->
+<!--                <th>GenBank_ID</th>-->
+<!--                <th>Mutation_position</th>-->
+<!--                <th>Mutation_alt</th>-->
+<!--                <th>Mutation_type</th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--</table>-->
+
+
+<!--<script>-->
+<!--$(document).ready( function () {-->
+<!--    $('#data2').DataTable( {-->
+<!--        "ajax": "data/mutation.txt",-->
+<!--      columns:[-->
+<!--      { data: 'Organism' },-->
+<!--      { data: 'Gene' },-->
+<!--      { data: 'Uniprot' },-->
+<!--      { data: 'PTM' },-->
+<!--      { data: 'Site' },-->
+<!--      { data: 'AA' },-->
+<!--      { data: 'GenBank_ID' },-->
+<!--      { data: 'Mutation_position' },-->
+<!--      { data: 'Mutation_alt' },-->
+<!--      { data: 'Mutation_type' },-->
+<!--       ],-->
+<!--      dom: 'Bfrtip',-->
+<!--      buttons: [-->
+<!--        'copy','csv','excel'-->
+<!--    ]-->
+
+<!--    } );-->
+<!--} );-->
+<!--</script>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="row">
+    <div class="col-md-3">
+        <br>
+    </div>
+</div>
+
+
+<!--protein interaction -->
+<div class="row">
+
+<div class="col-md-3 offset-md-1">
+
+<div id="main3" style="height:300%"></div>
+
+ <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart3 = echarts.init(document.getElementById('main3'));
+      var option3=({
+    title: {
+      text: '4.Interaction network',
+      textStyle:{
+         color: "#0072B2",
+         fontSize:28
+      }
+    },
+              toolbox: {
+    　　feature: {
+    　　　　saveAsImage: {　}
+    　　}
+    },
+    series: [
+      {
+        name: 'interaction network',
+        type: 'graph',
+        layout: 'force',
+        animation: false,
+        data: [{ fixed: true,id: '0',name: "{{A1}}", symbolSize: 25, colors: '#0099e5',symbol:'diamond', x: myChart3.getWidth() / 2, y: myChart3.getHeight() / 2}].concat({{ZZ2|tojson}}),
+        links: {{ ZZ3|tojson }},
+        label: {
+          show: true,
+          position: 'right',
+          formatter: '{b}',
+          color: '#000000',
+          fontSize: 14
+        },
+        edgeSymbol: ['', 'arrow'],
+          itemStyle: {
+          normal:{//不同节点显示不同颜色
+            color: function(params) {
+              return params.data.colors    //获取具体的参数
+          }} },
+        force: {
+          // initLayout: 'circular'
+          // gravity: 0
+          repulsion: 100,
+          edgeLength: 60
+        },
+        emphasis: {
+          focus: 'adjacency',
+          label: {
+            position: 'right',
+            show: true
+          }
+        },
+        roam: true,
+        lineStyle: {
+          width: 3,
+          opacity: 1,
+          color: "#ff4c4c"
+        }
+      }
+    ]
+  });
+
+
+// 使用刚指定的配置项和数据显示图表。
+myChart3.setOption(option3);
+</script>
+</div>
+
+
+<div class="col-md-6 offset-md-1">
+ <div id="main4" style="height:90%"></div>
+
+<script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart4 = echarts.init(document.getElementById('main4'));
+      // 指定图表的配置项和数据
+      var option4 = {
+        title: {
+          text: '5.Importance score',
+          textStyle:{
+            color: "#CC79A7",
+            fontSize:28
+      }
+        },
+         toolbox: {
+    　　feature: {
+    　　　　saveAsImage: {　}
+    　　}
+    },
+        tooltip: {},
+<!--        legend: {-->
+<!--          data: ['Score']-->
+<!--        },-->
+        xAxis: {
+        name: 'Residues Number',
+        nameLocation:'center',
+        nameTextStyle:{
+        fontSize:16,// 字体大小
+        padding: 10,
+        color: '#000000',
+    },
+        data: {{I1}},
+                axisLabel: {
+        show: true,
+        textStyle: {
+        color: '#000000',
+   }}
+        },
+        grid:{
+        left:50,
+        right:10,
+        top:50,
+        bottom:50,
+        },
+
+        yAxis: {
+        name:'Score',
+        nameLocation:'center',
+        nameRotate: '90',
+        nameGap: 10,
+        nameTextStyle:{
+        fontSize:16,// 字体大小
+        padding: 20,
+        color: '#000000',
+    },
+         axisLabel: {
+        show: true,
+        textStyle: {
+        color: '#000000',
+   }}
+    },
+
+
+        series: [
+          {
+            name: 'Score',
+            type: 'bar',
+            color: '#FFBD40',
+            data: {{J1}},
+            barMaxWidth: 60, // 最大宽度
+          }
+        ]
+      };
+
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart4.setOption(option4);
+
+</script>
+</div>
+</div>
+
+<!-- complex-->
+
+<div class="row">
+<div class="col-md-10 offset-md-1">
+
+<!--<div style="display:flex;"><h3 style="color:#56B4E9">2.Protein features</h3><a style="margin-left:30px;" href="../data/{{Y1}}" title="Download protein features"><input class="btn btn-primary" type="submit" value="Download" style="background-color:#56B4E9;border-color:#56B4E9;"></a>-->
+<!--</div>-->
+
+<div style="display:flex;"><h3 style="color:#D55E00">6.Complex analysis</h3><a style="margin-left:10px;" href="../data/{{Z1}}" title="Download all complex information"><input class="btn btn-primary" type="submit" value="Download" style="background-color:#D55E00;border-color:#D55E00"></a>
+</div>
+
+</div>
+
+</div>
+
+<div class="row">
+<div class="col-md-4 offset-md-1">
+     <br>
+
+<div id="container-02" class="mol-container2"></div>
+<style>
+.mol-container2 {
+  width:  70%;
+  height: 70%;
+  position: relative;
+
+  overflow: hidden;
+
+}
+</style>
+
+<script>
+$(function() {
+
+  let element = $('#container-02');
+  let config = { backgroundColor: 'white' };
+  let viewer = $3Dmol.createViewer( element, config );
+  let pdbUri = '/data/{{K1}}.pdb';
+  jQuery.ajax( pdbUri, {
+    success: function(data) {
+      let v = viewer;
+      v.addModel( data, "pdb" );                       /* load data */
+      v.setStyle({}, {cartoon: {color: 'spectrum'}});  /* style all atoms */
+      v.zoomTo();                                      /* set camera */
+      v.render();                                      /* render scene */
+      v.spin();                                      /* spin*/
+      v.addLabel("{{label}}", {position: {x:{{xx}}, y:{{yy}}, z:{{zz}}}, backgroundColor: 0x800080, backgroundOpacity: 0.8});
+      v.zoom(1.2, 1000);                               /* slight zoom */
+    },
+    error: function(hdr, status, err) {
+      console.error( "Failed to load PDB " + pdbUri + ": " + err );
+    },
+  });
+
+
+
+
+});
+
+</script>
+<p class="lead"><strong>Display first structure: {{K1}}</strong></p >
+</div>
+
+
+<div class="col-md-6">
+
+<table id="data3" class="hover" style="width:100%">
+        <thead>
+            <tr>
+                <th>Complex</th>
+                <th>AA1</th>
+                <th>AA2</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for foo in com %}
+         <tr>
+         <td>{{ foo.Complex }}</td>
+         <td>{{ foo.AA1 }}</td>
+         <td>{{ foo.AA2 }}</td>
+         <td>{{ foo.Type }}</td>
+         </tr>
+        {% endfor %}
+        </tbody>
+
+
+</table>
+
+
+<script>
+$(document).ready( function () {
+    $('#data3').DataTable( {
+    "createdRow": function (row, data, dataIndex) {
+          // row : tr dom
+          // data: row data
+          // dataIndex:row data's index
+          if (data[3] == "HB") {
+              $('td', row).css("color", "#DA0017");
+          }
+          if (data[3] == "HP") {
+              $('td', row).css("color", "#3333CC");
+          }
+          if (data[3] == "ELE") {
+              $('td', row).css("color", "#339900");
+          }
+
+
+      },
+<!--        "ajax": "data/complex.txt",-->
+<!--      columns:[-->
+<!--      { data: 'Complex' },-->
+<!--      { data: 'AA1' },-->
+<!--      { data: 'AA2' },-->
+<!--      { data: 'Type' },-->
+<!--       ],-->
+      dom: 'Bfrtip',
+      buttons: [
+        'copy','csv','excel'
+    ]
+
+    } );
+} );
+</script>
+
+</div>
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+{%- endblock content %}
