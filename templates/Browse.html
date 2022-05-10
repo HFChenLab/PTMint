@@ -1,0 +1,274 @@
+
+{% extends "mybase.html" %}
+
+{% block content -%}
+
+<script>
+	let $a = document.querySelector('.menuItem.active')
+	if($a){$a.classList.remove('active')}
+	document.querySelector('#browse').classList.add('active')
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+
+<div class="container-fluid">
+	<div class="row">
+	  <div class="col-md-6 offset-md-1">
+		<br>
+		<h3><label for="search_type">&#8251; Browse</label></h3>
+		 <p class="lead"><strong>Browse genes with PTM in Human</strong></p>
+	  </div>
+	</div>
+	
+	
+	
+	
+	<div class="row">
+  <div class="col-md-10 offset-md-1">
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+		<a class="nav-link active" href="#" data-ptm="Ac">Acetylation</a>
+	  </li>
+	  <li class="nav-item">
+		<a class="nav-link" href="#" data-ptm="Glyco">Glycosylation</a>
+	  </li>
+	  <li class="nav-item">
+		<a class="nav-link" href="#" data-ptm="Me">Methylation</a>
+	  </li>
+	  <li class="nav-item">
+		<a class="nav-link" href="#" data-ptm="Phos">Phosphorylation</a>
+	  </li>
+	  <li class="nav-item">
+		<a class="nav-link" href="#" data-ptm="Sumo">SUMOylation</a>
+	  </li>
+	  <li class="nav-item">
+		<a class="nav-link" href="#" data-ptm="Ub">Ubiquitylation</a>
+	  </li>
+	</ul>
+	
+	<div id="geneFilter" style="padding:15px 0;">
+		<span class="browseFilter reset" data-alpha="0">Reset</span>
+		<span class="browseFilter" data-alpha="A">A</span>
+		<span class="browseFilter " data-alpha="B">B</span>
+		<span class="browseFilter " data-alpha="C">C</span>
+		<span class="browseFilter " data-alpha="D">D</span>
+		<span class="browseFilter " data-alpha="E">E</span>
+		<span class="browseFilter " data-alpha="F">F</span>
+		<span class="browseFilter " data-alpha="G">G</span>
+		<span class="browseFilter " data-alpha="H">H</span>
+		<span class="browseFilter " data-alpha="I">I</span>
+		<span class="browseFilter " data-alpha="J">J</span>
+		<span class="browseFilter " data-alpha="K">K</span>
+		<span class="browseFilter " data-alpha="L">L</span>
+		<span class="browseFilter " data-alpha="M">M</span>
+		<span class="browseFilter " data-alpha="N">N</span>
+		<span class="browseFilter " data-alpha="O">O</span>
+		<span class="browseFilter " data-alpha="P">P</span>
+		<span class="browseFilter " data-alpha="Q">Q</span>
+		<span class="browseFilter " data-alpha="R">R</span>
+		<span class="browseFilter " data-alpha="S">S</span>
+		<span class="browseFilter " data-alpha="T">T</span>
+		<span class="browseFilter " data-alpha="U">U</span>
+		<span class="browseFilter " data-alpha="V">V</span>
+		<span class="browseFilter " data-alpha="W">W</span>
+		<span class="browseFilter " data-alpha="X">X</span>
+		<span class="browseFilter " data-alpha="Y">Y</span>
+		<span class="browseFilter " data-alpha="Z">Z</span>
+	</div>
+	<div>
+		<table id="filterdGeneTable">
+		</table>
+		<div style="margin:15px 0"><span class="lead"><strong>Showing <b id="showStartNum">0</b> to <b id="showEndNum">0</b> of <b id="totalNum">0</b> genes </strong></span></div>
+		<ul id="pager" class="pagination">
+			<li class="page-item">
+			  <a class="page-link" href="#" aria-label="Prev" data-label="Prev">
+				<span aria-hidden="true">&laquo;</span>
+			  </a>
+			</li>
+			<li class="page-item page"><a class="page-link" href="#" aria-label="1" data-number="1">1</a></li>
+			<li class="page-item">
+			  <a class="page-link" href="#" aria-label="Next" data-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			  </a>
+			</li>
+		  </ul>
+	</div>
+</div>
+</div>
+  <div class="row">
+  <div class="col-md-10 offset-md-1">
+   <br>
+   <br>
+
+
+
+
+   </div>
+   </div>
+
+</div>
+
+<style type="text/css">
+a:hover{
+color:#F00F00;
+text-decoration:underline;  /*鼠标放上去有下划线*/-->
+}!important 
+</style>
+
+<style>
+.nav-item{
+font-size:20px;
+}
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: #F00F00;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+</style>
+
+
+
+
+
+
+<style>
+.browseFilter{
+	font-size:20px;
+	border-radius:3px;
+	background:#117341;
+	color:white;
+	padding:0.1em 0.4em;
+	margin:5px 2px;
+	cursor:pointer;
+	margin-left:10px
+}
+.reset{
+    font-size:20px;
+	border-radius:3px;
+	padding:0.1em 0.4em;
+	background:#0ad;
+	margin:5px 2px;
+}
+.browseFilter.reset:hover{
+	background:#0be;
+}
+.browseFilter:hover{
+	background:#31a371;
+}
+.browseFilter.disabled{
+	background:#aaa;
+	color:#555;
+	cursor:auto;
+}
+.browseFilter.active{
+	background:orange;
+	border:solid 3px orange;
+}
+#filterdGeneTable{
+	width:100%;
+	table-layout: fixed;
+	margin-bottom:10px;
+}
+table>tr:nth-child(odd){
+	background:#eee;
+}
+table>tr:hover{
+	background:#ccc;
+}
+td{
+	border:solid 2px gray;
+	padding:8px;
+	font-size:18px;
+}
+</style>
+<script>
+	var ptmType="Ac", geneAlpha="0", showGeneList=[];
+	var page=1, geneRows=6, geneCols=10;
+	var geneList = ["A","b","c","d","e","A","b","c","d","e","A","b","c","d","e"];
+	$(".nav-link").click(function(e){
+		if($(this).hasClass("disabled")||$(this).hasClass("active"))return;
+		ptmType=e.target.dataset.ptm;
+		$(".nav-link.active").removeClass("active");
+		this.classList.add("active");
+		queryFilterdGene();
+	})
+	$(".browseFilter").click(function(e){
+		if($(this).hasClass("disabled")||$(this).hasClass("active"))return;
+		geneAlpha=e.target.dataset.alpha;
+		$(".browseFilter.active").removeClass("active");
+		if(!$(this).hasClass("reset"))this.classList.add("active");
+		page=1;
+		changePage()
+		formatGeneTable();
+	})
+	function queryFilterdGene(){
+		$.ajax(`/queryFilterdGene/${ptmType}`,{
+			success:res=>{
+				geneList=res;
+				page=1;
+				formatGeneTable();
+			},
+			error:res=>{alert("server error!")},
+		})
+	}
+	function changePage(){
+		$("#pager>.page-item.page").remove();
+		let totalPage=Math.ceil(showGeneList.length/geneRows/geneCols);
+		for (let i=1;i<=totalPage;i++){
+			$("#pager li:nth-child("+i+")")
+				.after(`<li class="page-item page"><a class="page-link" href="#" data-number="${i}">${i}</a></li>`)
+		}
+		$("#showStartNum").text((page-1)*geneRows*geneCols+1)
+		$("#showEndNum").text(Math.min(page*geneRows*geneCols,showGeneList.length))
+
+		$("#pager li:nth-child("+(page+1)+")").addClass('disabled');
+		
+		$("#pager a").unbind("click").click(function(e){
+			let tmp = page;
+			if (e.target.dataset.label==="Prev"){
+				page = 1
+			}else if (e.target.dataset.label==="Next"){
+				page = totalPage
+			}else {
+				console.log(page,e.target.dataset);
+				page = parseInt(e.target.dataset.number) || 1
+			}
+			if (tmp!==page)formatGeneTable()
+		})
+	}
+	function formatGeneTable(){
+		let pageOffset=(page-1)*geneRows*geneCols;
+		$("#filterdGeneTable").empty();
+		let alphaList=[];
+		showGeneList=[]
+		for (let i of geneList){
+			if(!alphaList.includes(i[0]))alphaList.push(i[0].toUpperCase());
+			if(geneAlpha==="0" || i[0]===geneAlpha)showGeneList.push(i);
+		}
+		$("#totalNum").text(showGeneList.length);
+		$(".browseFilter:not(.reset)").addClass("disabled");
+		alphaList=alphaList.sort();
+		for (let a of alphaList){
+			$(".browseFilter[data-alpha="+a+"]").removeClass("disabled");
+		}
+		for (let i=0;i<geneRows && showGeneList.length>i*geneCols+pageOffset;i++){
+			$("#filterdGeneTable").append("<tr></tr>");
+			for(j=0;j<geneCols;j++){
+				if(showGeneList.length<=i*geneCols+j+pageOffset){
+					$("#filterdGeneTable tr:nth-last-child(1)")
+					.append(`<td></td>`)
+					i=geneCols;
+				}else{
+					$("#filterdGeneTable tr:nth-last-child(1)")
+					.append(`<td><a href="Search/${ptmType}/${showGeneList[i*geneCols+j+pageOffset]}" title="View results" target="_blank">${showGeneList[i*geneCols+j+pageOffset]}</a></td>`)
+				}
+							}
+		}
+		changePage();
+	}
+	queryFilterdGene()
+</script>
+{%- endblock content %}
+
+

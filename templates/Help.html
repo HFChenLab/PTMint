@@ -1,0 +1,275 @@
+{# Jinja web template engine which will be redered by Flask #}
+{# Template Inheritance #}
+{% extends "mybase.html" %}
+
+{% block content -%}
+
+
+
+<style type="text/css">
+a:hover{
+color:#117341;
+text-decoration:underline;  
+}
+.ccc{
+text-decoration:underline;
+color:#117341;
+}
+.ddd{
+text-decoration:none;
+color:#117341;
+}
+</style>
+
+
+
+<style>
+ .center{
+  text-align:justify;
+  text-align-last: justify;
+  font-size: 16px;
+}
+span{
+  display:inline-block;
+  width:100%;
+}
+.lead2{
+font-size: 18px;
+}
+
+</style>
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.dataTables.min.css') }}">
+<script>
+	let $a = document.querySelector('.menuItem.active')
+	if($a){$a.classList.remove('active')}
+	document.querySelector('#help').classList.add('active')
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.10.2.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.dataTables.js') }}"></script>
+
+
+
+
+
+<div class="container-fluid">
+      <div class="row">
+           <div class="col-md-6 offset-md-1">
+            <br>
+             <h3>&#8251; Help</h3>
+            </div>
+      </div>
+      
+	  <div class="row">
+	    <div class="col-md-10 offset-md-1">
+		    <h3>1.Data source and used websites/softwares</h3>
+			<p class="center">We defined the regulatory roles of <strong>PTM</strong> on <strong>P</strong>rotein-<strong>P</strong>rotein <strong>I</strong>nteractions<sup>1,2,3,4,5,6</sup>: <strong>1)Enabling: Increase affinity</strong> and <strong>2)Disabling: Decrease affinity</strong>. We extracted the functional PTM sites and associated literature from Uniprot&#9312, PTMD&#9313, PTMfunc&#9314 and PhosphoSitePlus&#9315 databases. We also downloaded the relevant literature using PubMed&#9316 database by searching the following keywords and the combinations: human, protein, bind, associate, enable, interact, interaction, inhibit, disable, prevent, dissociate, site, PTM, <strong>phosphorylation</strong>, <strong>acetylation</strong>, <strong>methylation</strong>, <strong>sumoylation</strong>, <strong>ubiquitylation</strong> and <strong>glycosylation</strong>. Then, we checked the full-text of above nearly 3,600 papers carefully to obtain <strong>complete experimental evidence</strong>, which included regulatory PTM sites and types, interacting proteins, detection methods, associated diseases and co-localization.</p>
+			<p class="center">Reference:<br>(1). Betts MJ et al. Mechismo: predicting the mechanistic impact of mutations and modifications on molecular interactions. <strong><i>Nucleic Acids Res</i></strong>. 2015 Jan;43(2):e10. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/25392414/" target="_blank" class="ccc">25392414</a><br>
+			(2). Betts MJ et al. Systematic identification of phosphorylation-mediated protein interaction switches. <strong><i>PLoS Comput Biol</i></strong>. 2017 Mar 27;13(3):e1005462. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/28346509/" target="_blank" class="ccc">28346509</a><br>
+			(3). Lin J et al. A tri-functional amino acid enables mapping of binding sites for posttranslational-modification-mediated protein-protein interactions. <strong><i>Mol Cell</i></strong>. 2021 Jun 17;81(12):2669-2681.e9.PMID:<a href="https://pubmed.ncbi.nlm.nih.gov/33894155/" target="_blank" class="ccc">33894155</a><br>
+			(4). Li X et al. Quantitative chemical proteomics approach to identify post-translational modification-mediated protein-protein interactions. <strong><i>J Am Chem Soc</i></strong>. 2012 Feb 1;134(4):1982-5.PMID:<a href="https://pubmed.ncbi.nlm.nih.gov/22239320/" target="_blank" class="ccc">22239320</a><br>
+			(5). Spektor TM et al. Identification and characterization of posttranslational modification-specific binding proteins in vivo by mammalian tethered catalysis. <strong><i>PNAS</i></strong>. 2009 Sep 1;106(35):14808-13.PMID:<a href="https://pubmed.ncbi.nlm.nih.gov/19706462/" target="_blank" class="ccc">19706462</a><br>
+			(6). Seet BT, Dikic I, Zhou MM, Pawson T. Reading protein modifications with interaction domains.<strong><i> Nat Rev Mol Cell Biol</i></strong>. 2006 Jul;7(7):473-83. PMID:<a href="https://pubmed.ncbi.nlm.nih.gov/16829979/" target="_blank" class="ccc">16829979</a></p>
+		</div>
+	  </div>
+	  
+	  
+	  <div class="row">
+	    <div class="col-md-10 offset-md-1">
+		   <table id="example" class="display" style="width:100%">
+		     <thead>
+			   <tr>
+			     <th>Websites/Softwares</th>
+				 <th>Description</th>
+				 <th>URL</th>
+			   </tr>
+			 </thead>
+			 <tbody>
+			   <tr>
+				 <td>Uniprot&#9312</td>
+				 <td>Comprehensive protein annotation</td>
+				 <td><a href="http://www.uniprot.org/" target="_blank" class="ddd">http://www.uniprot.org/</a></td>
+			   <tr>
+			   
+			   <tr>
+				 <td>PTMD&#9313</font></td>
+				 <td>Database of PTMs that are associated with human Diseases</td>
+				 <td><a href="http://ptmd.biocuckoo.org/" target="_blank" class="ddd">http://ptmd.biocuckoo.org/</a></td>
+			   <tr>
+			   			   
+			   <tr>
+				 <td>PTMfunc&#9314</td>
+				 <td>Prediction for PTM function</td>
+				 <td><a href="http://ptmfunc.com/" target="_blank" class="ddd">http://ptmfunc.com/</a></td>
+			   <tr>
+
+			   <tr>
+				 <td>PhosphoSitePlus&#9315</td>
+				 <td>Comprehensive information for PTM</td>
+				 <td><a href="https://www.phosphosite.org/" target="_blank" class="ddd">https://www.phosphosite.org/</a></td>
+			   <tr>
+			   
+			   <tr>
+				 <td>PubMed&#9316</td>
+				 <td>Collection of published literature</td>
+				 <td><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" class="ddd">https://pubmed.ncbi.nlm.nih.gov/</a></td>
+			   <tr>
+			   
+			   <tr>
+				 <td>Pfam</font></td>
+				 <td>Collection of protein families</td>
+				 <td><a href="http://pfam.xfam.org/" target="_blank" class="ddd">http://pfam.xfam.org/</a></td>
+			   <tr>
+			   
+			   <tr>
+				 <td>IUPred2A</font></td>
+				 <td>Prediction of Intrinsically Unstructured Proteins</td>
+				 <td><a href="https://iupred2a.elte.hu/" target="_blank" class="ddd">https://iupred2a.elte.hu/</a></td>
+			   <tr>
+			   
+			   <tr>
+				 <td>RCSB PDB</td>
+				 <td>Collection of crystallized structures</td>
+				 <td><a href="https://www.rcsb.org/" target="_blank" class="ddd">https://www.rcsb.org/</a></td>
+			   <tr>
+			   
+			   <tr>
+				 <td>PyMOL</td>
+				 <td>Structure visualization, Protein-Protein docking</td>
+				 <td><a href="https://pymol.org/2/" target="_blank" class="ddd">https://pymol.org/2/</a></td>
+			   <tr>			   
+			   
+			   <tr>
+				 <td>ZDOCK</td>
+				 <td>Protein-Protein docking</td>
+				 <td><a href="https://zdock.umassmed.edu/" target="_blank" class="ddd">https://zdock.umassmed.edu/</a></td>
+			   <tr>
+			   
+			   <tr>
+				 <td>HDOCK</td>
+				 <td>Protein-Protein docking</td>
+				 <td><a href="http://hdock.phys.hust.edu.cn/" target="_blank" class="ddd">http://hdock.phys.hust.edu.cn/</a></td>
+			   <tr>				   
+			   
+			   
+			  </tbody>
+			 </table>
+			
+<script>
+$(document).ready(function() {
+    var table = $('#example').DataTable({
+        } );
+} );
+</script>
+			 	 
+</div>
+</div>
+	     
+	  <div class="row">
+	    <div class="col-md-10 offset-md-1">
+		<br>
+		    <h3>2.Browse</h3>
+			<p class="lead2">Users can easily specify PTM and gene to retrieve the results.</p>
+			<img src="{{ url_for('static', filename='img/Browse.png') }}" class="img-fluid mx-auto d-block" width="95%"/>	
+	    </div>
+	  </div>
+	  
+	  
+	  
+	  <div class="row">
+	    <div class="col-md-10 offset-md-1">
+		<br>
+		    <h3>3.Search</h3> 
+			<p class="lead2">PTMint database provides two search ways for users: 1)Quick search; 2)Advanced search.<br>
+			The hit results will be shown in the tabular format. And detailed results can be obtained by clicking "<font color="#117341">Show</font>" buttons.</p>
+			<img src="{{ url_for('static', filename='img/Search.png') }}" class="img-fluid mx-auto d-block" width="95%" />
+	    </div>
+	  </div>
+	  
+	  
+	  <div class="row">
+	    <div class="col-md-10 offset-md-1">
+		<br>
+		    <h3>4.Results</h3>
+			<p class="lead2">Click the "<font color="#117341">Show</font>" button, the detailed results will be shown in a new page, which includes six sections:</p>
+			<p class="lead2"><strong>(1)Overview</strong>, which provides protein basic information, full-length protein structure (Predicted by AlphaFold) and external links.</p>
+			<img src="{{ url_for('static', filename='img/Result1.png') }}" class="img-fluid mx-auto d-block" width="95%"/>
+			<br>
+			<p class="lead2"><strong>(2)Protein features</strong>. Disorder analysis: Exceed 0.5 means disorder.</p>
+			<img src="{{ url_for('static', filename='img/Result2.png') }}" class="img-fluid mx-auto d-block" width="95%"/>
+			<br>
+			<p class="lead2"><strong>(3)PTM on Protein-Protein Interactions</strong>, which be composed of two parts: complete experimental evidence, structure and site annotation.</p>
+			<img src="{{ url_for('static', filename='img/Result3.png') }}" class="img-fluid mx-auto d-block" width="95%"/>
+			<br>
+			<p class="lead2"><strong>(4)Interaction network</strong>. Blue square: Gene; Green circle: Int_gene.<strong><br>(5)Importance score</strong>, which be sorted by descending order. Higher score means higher important role in disease process and potential drug targets.</p>
+			<img src="{{ url_for('static', filename='img/Result4 and 5.png') }}" class="img-fluid mx-auto d-block" width="95%"/>
+			<br>
+			<p class="lead2"><strong>(6)Complex analysis</strong>. Users can easily manipulate and switch structures. Interaction analysis are also provided.<br>
+			HB: Hydrogen bond; HP: Hydrophobic interaction; ELE: Electrostatic interaction.<br>
+			All complex structures, interfaceResidues and interaction analysis can be downloaded by clicking the '<font color="#D55E00">Download</font>' button.</p>
+			<img src="{{ url_for('static', filename='img/Result6.png') }}" class="img-fluid mx-auto d-block" width="95%"/>		
+	    </div>
+	  </div>
+	  
+	  <div class="row">
+	    <div class="col-md-10 offset-md-1">
+		<br>
+		   <h3>5.Contact</h3>
+          <p class="lead2">PTMint database codes has been deposited in GitHub repository: <a href="https://github.com/HFChenLab/PTMint" target="_blank" class="ccc"><strong>PTMint</strong></a>.<br>
+		  We are very glad to receive any feedbacks, suggestions, or comments about PTMint database from global users! Don't hesitate to <a href="/Contact" target="_blank" class="ccc"><strong>contact us</strong></a>!</p>
+        </div>
+      </div>		
+	  
+	  
+	  <div class="row">
+	    <div class="col-md-10 offset-md-1">
+		   <h3>6.Citation</h3>
+          <p class="lead2">When refering to PTMint, please cite:</p>
+        </div>
+      </div>		
+		 
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+  
+{%- endblock content %}
