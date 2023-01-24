@@ -2,7 +2,7 @@
 """
 Created on March 2022
 
-@author: hill103,Xiaokun Hong
+@author: Xiaokun Hong
 """
 
 '''
