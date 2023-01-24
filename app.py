@@ -708,5 +708,5 @@ def resultss(ptm,gene):
 
 if __name__ == '__main__':
     # 对应intenal IP
-    app.run(host='192.168.1.201', port=8082, debug=False)
+    app.run(host= '127.0.0.1', port=5000, debug=False)
 
