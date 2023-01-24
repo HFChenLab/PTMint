@@ -2,7 +2,7 @@
 """
 Created on March 2022
 
-@author: Xiaokun Hong
+@author: Xiaokun Hong, Ningshan Li, Jiyang Lv
 """
 
 '''
