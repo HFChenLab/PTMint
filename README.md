@@ -1,5 +1,5 @@
 # PTMint
-A website (PTMint) for **Post Translational Modification (PTM) associated with Protein-Protein Interactions** created by *Xiaokun Hong, Ningshan Li, Jiyang LV*
+A website (PTMint) for **Post Translational Modification (PTM) associated with Protein-Protein Interactions** created by *Xiaokun Hong, Ningshan Li, Jiyang Lv*
 
 ## Set up environment
 
