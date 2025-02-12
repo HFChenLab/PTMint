@@ -6,7 +6,7 @@ Hong X, Li N, Lv J, Zhang Y, Li J*, Zhang J*, Chen HF*. PTMint database of exper
 
 # Contact
 <1>haifengchen@sjtu.edu.cn
-<1>hongxk@fzu.edu.cn
+<2>hongxk@fzu.edu.cn
 
 ## Set up environment
 
