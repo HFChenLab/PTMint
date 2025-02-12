@@ -1,7 +1,12 @@
 # PTMint
 A website (PTMint) for **Post Translational Modification (PTM) associated with Protein-Protein Interactions** created by *Xiaokun Hong, Ningshan Li, Jiyang Lv*
 
-Citation: Hong X, Li N, Lv J, Zhang Y, Li J*, Zhang J*, Chen HF*. PTMint database of experimentally verified PTM regulation on protein-protein interaction. Bioinformatics. 2023 Jan 1;39(1):btac823. doi: 10.1093/bioinformatics/btac823. PMID: 36548389; PMCID: PMC9848059.
+# Citation
+Hong X, Li N, Lv J, Zhang Y, Li J*, Zhang J*, Chen HF*. PTMint database of experimentally verified PTM regulation on protein-protein interaction. Bioinformatics. 2023 Jan 1;39(1):btac823. doi: 10.1093/bioinformatics/btac823. PMID: 36548389; PMCID: PMC9848059.
+
+# Contact
+<1>haifengchen@sjtu.edu.cn
+<1>hongxk@fzu.edu.cn
 
 ## Set up environment
 
